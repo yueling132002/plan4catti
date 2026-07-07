@@ -1,0 +1,6 @@
+# 与 plan4catti.html 无关的本地文件
+game.js
+game.json
+
+# macOS
+.DS_Store
