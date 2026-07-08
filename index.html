@@ -77,7 +77,13 @@
   .card.done{opacity:.75;}
   .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
   .chead h4{font-family:var(--serif);font-size:16.5px;}
+  .cmeta{display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .chead .mins{font-family:var(--mono);font-size:12px;color:var(--ink-soft);white-space:nowrap;border:1px solid var(--rule);border-radius:4px;padding:1px 7px;}
+  .fbbtn{border:1px solid var(--red);background:var(--red-soft);color:var(--red);border-radius:6px;height:22px;font-size:12px;line-height:1;padding:0 9px;font-weight:600;white-space:nowrap;}
+  .fbbtn.has{background:var(--red);color:#fff;}
+  .fbpanel{border:1px dashed var(--red);border-radius:8px;padding:12px;margin:10px 0;background:var(--red-soft);}
+  .fblabel{display:block;font-size:12px;font-weight:600;color:var(--red);margin-bottom:3px;}
+  .fbin{width:100%;min-height:52px;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;font-family:var(--sans);font-size:13.5px;background:#fff;color:var(--ink);resize:vertical;margin-bottom:8px;}
   .cbody{font-size:14.5px;color:var(--ink);}
   .cbody .note{color:var(--ink-soft);font-size:13.5px;}
 
@@ -169,6 +175,10 @@
 ------------------------------------------------------------ */
 const ACCESS_KEYS = [];
 
+/* ── 内测开关：true = 阶段总结3次练习/3天即解锁（便于短周期内测体验该功能）
+   正式上线前改回 false，恢复正常的30次/30天门槛。 ── */
+const MILESTONE_TEST = true;
+
 /* ── 素材库 ──────────────────────────────────────────────
    目前灌入 Day 1–3 真实素材（来自35天计划文档），用于跑通结构。
    确认结构后把其余 32 天按同样格式补齐即可。
@@ -212,6 +222,38 @@ const LIBRARY = [
 {"day": 35, "theme": "考前收心", "modules": [{"type": "review", "slot": "am", "mins": 150, "title": "模考日", "body": "轻松复习，早睡；早上：；只看高频易错术语总表（本文第一部分），不做新题；看一遍万能句式速查卡；看一遍常用动词对照表；晚上：；21:00前结束所有复习；准备考试物品；早睡；五、考前最后检查清单；物品准备； 准考证（打印两份）； 身份证； 黑色签字笔（至少3支）； 手表（考场可能没有钟）； 水和纸巾；考试策略； 实务科目120分钟，两篇翻译（英译汉+汉译英）； 每篇控制在55分钟内，留10分钟检查； 检查重点：漏译 → 术语 → 数据 → 通顺度； 遇到不会的词，先跳过写完全篇，再回来处理； 汉译英时：先确定主干结构，再填充修饰成分；考场翻译原则； 准确第一：术语用官方译法，不自创； 不漏译：每个信息点都要体现，哪怕表达不完美； 通顺：英文要像英文，不要中式英语； 四字格合并：意思重复的并列词组合并翻译； 数据必对：万→million，亿→100 million，万亿→trillion；心态提醒； 三笔通过率不低，不需要翻得\"漂亮\"，只需要\"准确+通顺+不漏\"； 综合能力是选择题，不确定的先选最顺眼的，不要纠结"}]}
 ];
 
+/* ── 泛读指引清单：每周维护，往数组头部加当周篇目即可 ──
+   access: "免费" 或 "需订阅"；url 建议给稳定入口或当周文章深链接
+------------------------------------------------------------ */
+const READLIST = [
+  {topic:"经济金融", source:"美联储（公有领域）", access:"免费",
+   title:"最新一篇美联储理事讲话（进入 News & Events → Speeches 挑最新一篇经济展望类）",
+   url:"https://www.federalreserve.gov",
+   questions:["这篇讲话对当前经济的核心判断是一句什么话？","找出3个描述数据变化趋势的动词（rise/ease/moderate…），中文里你会怎么译？","讲话人表达不确定性时用了哪些缓和语气的表达（hedging）？"]},
+  {topic:"发展环保", source:"世界银行（CC BY 4.0）", access:"免费",
+   title:"世行博客本周任选一篇气候或发展主题文章",
+   url:"https://blogs.worldbank.org",
+   questions:["文章的问题—证据—建议结构分别在哪几段？","摘出2个“政策建议”句式，对比政报里同功能的中文句式","标题里的动词换成中文标题你会怎么处理？"]},
+  {topic:"科技", source:"NASA（公有领域）", access:"免费",
+   title:"NASA 官网任选一篇气候或深空探索专题文章",
+   url:"https://www.nasa.gov",
+   questions:["科普文如何把专业概念讲给外行？找一个类比句","摘3个科技题材高频搭配（launch/deploy/orbit…）","长难句里的插入语，译成中文时你会前置还是拆句？"]},
+  {topic:"文化散文", source:"经济学人（版权刊物）", access:"需订阅",
+   title:"经济学人 Culture 栏目任选一篇书评或随笔（仅阅读，勿转载）",
+   url:"https://www.economist.com",
+   questions:["作者的态度词（褒/贬/反讽）有哪些？","找一个让你“读得出笑意”的句子，想想它妙在哪","这篇的开头方式（场景/引语/反问）能否借鉴到你的汉译英里？"]}
+];
+
+/* ── 考试日程节点：相对考试日的典型提前量（天）。用户填考试日后推算 ── */
+const EXAM_STEPS = [
+  {key:"reg_open",  offset:75, name:"报名开始",     note:"CATTI一般考前2-3个月报名，留意中国人事考试网/当地人事考试中心通知，别错过窗口。"},
+  {key:"reg_close", offset:60, name:"报名截止/缴费", note:"完成报名并缴费，逾期不补。核对报考级别、科目、考点信息。"},
+  {key:"dict",      offset:20, name:"备好纸质词典",  note:"实务允许带纸质词典：英汉、汉英各一本（电子词典不可）。经典：陆谷孙《英汉大词典》+《新世纪汉英大词典》。现在下单，别等考前买不到。"},
+  {key:"admission", offset:5,  name:"打印准考证",    note:"准考证一般考前一周开放打印，多打两份备用，记下考点地址和考试时间。"},
+  {key:"prep",      offset:1,  name:"考前准备",      note:"身份证+准考证+两本纸质词典+黑色签字笔+手表。提前踩点考场，机考熟悉输入法。早睡。"},
+  {key:"exam",      offset:0,  name:"考试日",        note:"综合上午、实务下午。实务3小时四篇，注意时间分配，先易后难，务必写完。"}
+];
+
 /* ── 状态 ── */
 const K = "coach_state_v1";
 let S = load();
@@ -238,6 +280,32 @@ function reviewDueInfo(){
   const gap = currentDayN() - (S.lastReviewDay||0);
   const cad = rvCadence();
   return { due: gap>=cad, gap, cad };
+}
+/* ── 里程碑：练习满30次 或 距上次里程碑满30天，取先到 ── */
+function totalPracticeCount(){
+  return Object.keys(S.work||{}).filter(k=>(S.work[k]||"").trim()).length;
+}
+function milestoneDue(){
+  const last = S.lastMilestone || { day:1, practiceCount:0 };
+  const thresh = MILESTONE_TEST ? 3 : 30;
+  const byCount = totalPracticeCount() - last.practiceCount >= thresh;
+  const byDays = currentDayN() - last.day >= thresh;
+  return byCount || byDays;
+}
+/* ── 考试日程：由考试日推算各节点 ── */
+function examSchedule(){
+  if(!S.examDate) return [];
+  const ex = new Date(S.examDate);
+  const today = new Date(todayStr());
+  return EXAM_STEPS.map(s=>{
+    const d = new Date(ex); d.setDate(d.getDate() - s.offset);
+    const daysLeft = Math.round((d - today)/86400000);
+    const done = (S.examSteps||{})[s.key];
+    return {...s, date:d.toISOString().slice(0,10), daysLeft, done, past:daysLeft<0};
+  });
+}
+function nextExamStep(){
+  return examSchedule().find(s=>!s.done && s.daysLeft>=0) || null;
 }
 const $ = id => document.getElementById(id);
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
@@ -309,14 +377,16 @@ function modulesForDay(dayN){
       const r = lib.modules.find(m=>m.type==="reading");
       if(r) mods.push({...r, id:`d${dayN}m1`, mins:30, title:"每周精读 · "+r.title.replace(/^精读段落：/,"")});
     }
-    if(w===5) mods.push({ type:"review", slot:"pm", mins:20, id:`d${dayN}m2`, title:"泛读日",
-      body:"读一篇你感兴趣的外刊文章（题材不限），摘3个想据为己有的表达进术语本。养成期的目标是保持输入的手感，不是做题。" });
+    if(w===5){
+      const rl = READLIST[Math.floor((dayN-1)/7) % READLIST.length];
+      mods.push({ type:"extensive", slot:"pm", mins:25, id:`d${dayN}m2`, title:"泛读日 · "+rl.topic, read:rl });
+    }
     if((dayN)%7===0) mods.push({ type:"weekly", slot:"pm", mins:10, id:`d${dayN}weekly`, title:"复盘节点", body:"" });
     return { lib, mods, stub:false, mode:"inc" };
   }
   let mods = lib.modules.map((m,i)=>({...m, id:`d${dayN}m${i}`}));
   if(S.hours==="2" && !S.weak.includes("zonghe")) mods = mods.filter(m=>m.type!=="comprehensive");
-  if(S.weak.includes("typing")) mods.push({type:"typing", slot:"pm", mins:10, id:`d${dayN}typing`, title:"打字提速练习", body:"用金山打字通或在线打字网站练中文输入10分钟。实务是机考，目标：中文40字/分钟以上。记录今天的速度，周复盘时填写。"});
+  if(S.weak.includes("typing")) mods.push({type:"typing", slot:"pm", mins:10, id:`d${dayN}typing`, title:"打字提速练习", body:"随便打开一个空文档（手机备忘录、电脑记事本都行），把今天精读的中文参考译文照着敲一遍，计时。实务是机考，中文录入速度直接影响能不能写完。目标：中文40字/分钟以上。记录今天的速度，复盘时填写。"});
   if((S.focus||[]).includes("gram")){
     const subs = (S.gramsub||[]).filter(s=>GRAMBANK[s]);
     const keys = subs.length ? subs : Object.keys(GRAMBANK);
@@ -324,6 +394,11 @@ function modulesForDay(dayN){
     mods.push({type:"grammar", slot:"pm", mins:15, id:`d${dayN}grammar`, pat, title:"语法诊所 · "+GRAMBANK[pat].name});
   }
   if(d.weekly) mods.push({type:"weekly", slot:"pm", mins:15, id:`d${dayN}weekly`, title:"复盘节点", body:""});
+  const sprintDay = dayN - (S.plan.inc||0);
+  if(sprintDay>0 && sprintDay%7===0){
+    const rl = READLIST[Math.floor(sprintDay/7-1) % READLIST.length];
+    mods.push({ type:"extensive", slot:"pm", mins:25, id:`d${dayN}ext`, title:"每周泛读 · "+rl.topic, read:rl });
+  }
   return { lib, mods, stub:d.stub, mode:"sprint" };
 }
 
@@ -356,6 +431,20 @@ function copyText(text, msg){
 
 /* ── 完成状态 ── */
 function isDone(id){ return (S.done||{})[id]; }
+let fbOpen = null;
+function openFb(mid){ fbOpen = mid; render(); }
+function closeFb(){ fbOpen = null; render(); }
+function saveFb(mid, title){
+  const prob = ($("fbp_"+mid)||{}).value || "";
+  const sugg = ($("fbs_"+mid)||{}).value || "";
+  if(!prob.trim() && !sugg.trim()){ toast("两个框都空着，没什么要提交的"); return; }
+  S.feedback = S.feedback || [];
+  const existing = S.feedback.find(f=>f.mid===mid);
+  const rec = { mid, day:(S.plan?shownDay():0), title, problem:prob.trim(), suggestion:sugg.trim(), at:new Date().toISOString() };
+  if(existing) Object.assign(existing, rec); else S.feedback.push(rec);
+  save(); fbOpen = null; render(); toast("反馈已记录，结束时随同步码发给作者即可");
+}
+function fbCount(mid){ return (S.feedback||[]).some(f=>f.mid===mid) ? 1 : 0; }
 function toggleDone(id){
   S.done = S.done||{};
   S.done[id] = !S.done[id];
@@ -391,10 +480,10 @@ function render(){
       <div class="dstamp" title="距考试天数"><b>D-${Math.max(dLeft,0)}</b><span>倒计时</span></div>
     </header>
     <nav>
-      ${[["plan","计划总览"],["today","任务"],["review","复盘"],["settings","设置"]].map(([v,t])=>
+      ${[["plan","计划总览"],["today","任务"],["review","复盘"],["exam","考试日程"],["settings","设置"]].map(([v,t])=>
         `<button class="${view===v?"on":""}" onclick="switchView('${v}')">${t}</button>`).join("")}
     </nav>
-    <div id="viewbox">${ view==="today"?renderToday(): view==="plan"?renderPlan(): view==="review"?renderReview(): renderSettings() }</div>`;
+    <div id="viewbox">${ view==="today"?renderToday(): view==="plan"?renderPlan(): view==="review"?renderReview(): view==="milestone"?renderMilestone(): view==="exam"?renderExam(): renderSettings() }</div>`;
 }
 function switchView(v){ view=v; render(); }
 
@@ -424,11 +513,23 @@ function renderToday(){
   if(mode==="inc"){
     html += `<div class="levelnote"><b>养成期</b>：现在每天只需10–20分钟——政经词条交给间隔复习慢慢长牢，阅读保持手感。成套训练、限时练习和模考都安排在 Day ${inc+1} 冲刺启动之后，不必焦虑。</div>`;
   } else {
-    if(S.level==="er") html += `<div class="levelnote"><b>二笔节奏</b>：练习限时已按二笔实务收紧（3小时四篇）。本周记得另做一篇外刊英译汉——外刊素材库将在 v2 加入，当前可先用经济学人/纽约时报双语文章自选。</div>`;
+    if(S.level==="er") html += `<div class="levelnote"><b>二笔节奏</b>：练习限时已按二笔实务收紧（3小时四篇）。每7天有一次带导读问题的泛读日，务必保持外刊输入；来自权威英文原文的英译汉练习素材将持续扩充。</div>`;
     if(stub) html += `<div class="levelnote">二轮巩固：35天素材已完整过完一轮，今天复用 ${esc(lib.theme)} 素材——重点做上一轮的错处，译文输入框里还留着你上次的版本可对照。</div>`;
   }
   const am = mods.filter(m=>m.slot==="am"), pm = mods.filter(m=>m.slot!=="am");
   html += renderSlot("早", am) + renderSlot("晚", pm);
+  // 考试日程临近提醒
+  const nx = nextExamStep();
+  if(nx && nx.daysLeft<=nx.offset && nx.daysLeft<=14){
+    html += `<div class="card" style="border-color:var(--red)"><div class="chead"><h4>📌 ${esc(nx.name)}</h4><span class="mins">${nx.daysLeft===0?"就是今天":nx.daysLeft+"天后"}</span></div>
+      <div class="cbody"><p class="note">${esc(nx.note)}</p><div class="btnrow"><button class="btn red" onclick="switchView('exam')">查看考试日程</button></div></div></div>`;
+  }
+  // 里程碑提醒
+  if(milestoneDue()){
+    html += `<div class="card" style="border-color:var(--ink);border-width:1.5px"><div class="chead"><h4>🎯 阶段总结解锁</h4></div>
+      <div class="cbody"><p class="note">你已练习 ${totalPracticeCount()} 次。到了给自己做一次阶段复盘的时候——看看进步在哪、短板在哪、计划外还能做什么。${MILESTONE_TEST?"（内测模式：3次即解锁，正式版为30次/30天）":""}</p>
+      <div class="btnrow"><button class="btn primary" onclick="switchView('milestone')">查看阶段总结</button></div></div></div>`;
+  }
   if(allDone){
     const info = reviewDueInfo();
     html += `<div class="card doneban"><div class="chead"><h4>Day ${dayN} 任务全部完成</h4></div><div class="cbody"><div class="btnrow">
@@ -509,6 +610,15 @@ function renderModule(m){
       <div class="btnrow"><button class="btn primary" onclick="copyGramPrompt()">复制专属改错题指令（基于我的译文）</button></div>
       <p class="note" style="margin-top:6px">指令会打包你最近留存的译文，让AI从你的真实错误里再出5道同模式新题。</p>`;
   }
+  if(m.type==="extensive"){
+    const r = m.read;
+    body = `<p><span class="funcbadge">${esc(r.source)}</span> <span class="phrase" style="margin-left:4px">${esc(r.access)}</span></p>
+      <p style="margin-top:6px">${esc(r.title)}</p>
+      <div class="btnrow"><button class="btn primary" onclick="window.open('${esc(r.url)}','_blank')">打开来源网站</button></div>
+      <p class="note" style="margin-top:10px">带着这3个问题读（读完勾掉）：</p>
+      <ul class="checks">${r.questions.map((q,i)=>`<li><input type="checkbox" id="rq_${m.id}_${i}"><label for="rq_${m.id}_${i}">${esc(q)}</label></li>`).join("")}</ul>
+      <p class="note">读后动作：摘3个想据为己有的表达进术语本。养成期的目标是保持输入的手感，不是做题。版权刊物仅阅读，请勿转载。</p>`;
+  }
   if(m.type==="review"||m.type==="comprehensive"||m.type==="typing"){
     body = `<p>${esc(m.body)}</p>`;
   }
@@ -519,9 +629,21 @@ function renderModule(m){
 
   return `<div class="card ${done?"done":""}" data-mid="${m.id}">
     ${done?'<div class="stamp">已完成</div>':""}
-    <div class="chead"><h4>${esc(m.title)}</h4><span class="mins">${mins} min</span></div>
+    <div class="chead"><h4>${esc(m.title)}</h4><div class="cmeta"><span class="mins">${mins} min</span><button class="fbbtn ${fbCount(m.id)?"has":""}" onclick="openFb('${m.id}')" title="对这个模块提反馈">${fbCount(m.id)?"💬 已反馈":"💬 反馈"}</button></div></div>
     <div class="cbody">${body}</div>
+    ${fbOpen===m.id?renderFbPanel(m):""}
     <div class="btnrow"><button class="btn ${done?"":"red"}" onclick="toggleDone('${m.id}')">${done?"取消完成标记":"标记完成"}</button></div>
+  </div>`;
+}
+function renderFbPanel(m){
+  const ex = (S.feedback||[]).find(f=>f.mid===m.id) || {};
+  return `<div class="fbpanel">
+    <p class="note" style="margin-bottom:6px">对「${esc(m.title)}」即时反馈（会随同步码发给作者）</p>
+    <label class="fblabel">问题反馈</label>
+    <textarea class="fbin" id="fbp_${m.id}" placeholder="哪里看不懂 / 出错 / 别扭？">${esc(ex.problem||"")}</textarea>
+    <label class="fblabel">改进建议</label>
+    <textarea class="fbin" id="fbs_${m.id}" placeholder="你希望它怎么改？">${esc(ex.suggestion||"")}</textarea>
+    <div class="btnrow"><button class="btn primary" onclick="saveFb('${m.id}','${esc(m.title).replace(/'/g,"")}')">提交反馈</button><button class="btn" onclick="closeFb()">收起</button></div>
   </div>`;
 }
 
@@ -742,9 +864,96 @@ function submitReview(){
   save(); toast("计划已调整"); switchView("today");
 }
 
+/* ── 阶段总结 ── */
+function renderMilestone(){
+  const cur = currentDayN();
+  const pc = totalPracticeCount();
+  const reviews = S.reviews||[];
+  const aiReviews = reviews.filter(r=>r.source==="ai");
+  // 弱项标签趋势
+  const firstTags = aiReviews[0] ? (aiReviews[0].tags||[]) : [];
+  const lastTags = aiReviews.length ? (aiReviews[aiReviews.length-1].tags||[]) : [];
+  const resolved = firstTags.filter(t=>!lastTags.includes(t));
+  const lingering = lastTags;
+  let html = `<div class="panel"><h3>阶段总结</h3>
+    <p class="small">工具先把客观数据摆出来，再帮你生成一份成长复盘。数据不说谎——你确实走到了这里。</p>
+    <table class="words" style="margin-top:8px">
+      <tr><th>指标</th><th>数值</th></tr>
+      <tr><td>已进行到</td><td>Day ${cur} / 共 ${S.plan.total} 天</td></tr>
+      <tr><td>累计留存译文</td><td>${pc} 篇</td></tr>
+      <tr><td>完成复盘</td><td>${reviews.length} 次（其中AI深度分析 ${aiReviews.length} 次）</td></tr>
+      <tr><td>已攻克的短板</td><td>${resolved.length?resolved.map(t=>TAGDEF[t]).join("、"):"—"}</td></tr>
+      <tr><td>当前仍需关注</td><td>${lingering.length?lingering.map(t=>TAGDEF[t]).join("、"):"暂无明显短板"}</td></tr>
+    </table></div>
+  <div class="panel"><h3>生成成长复盘（AI）</h3>
+    <p>点下面复制一条"成长复盘指令"，它会打包你<b>早期</b>和<b>近期</b>的译文对照，让AI具体告诉你：① 和之前比进步在哪 ② 现在最该突破的短板 ③ 计划之外你还可以做什么。</p>
+    <div class="btnrow"><button class="btn primary" onclick="copyGrowthPrompt()">复制成长复盘指令</button></div>
+  </div>
+  <div class="panel"><h3>确认收到这次总结</h3>
+    <p class="small">点确认后，下一次阶段总结将在再练${MILESTONE_TEST?3:30}次或再过${MILESTONE_TEST?3:30}天后解锁。</p>
+    <div class="btnrow"><button class="btn red" onclick="ackMilestone()">我看过了，继续前进</button></div>
+  </div>`;
+  return html;
+}
+function copyGrowthPrompt(){
+  const entries = [];
+  const cur = currentDayN();
+  for(let n=1;n<=cur;n++){
+    modulesForDay(n).mods.forEach(m=>{
+      if(m.type==="practice" && (S.work||{})[m.id] && S.work[m.id].trim())
+        entries.push({day:n, src:m.src, ref:m.ref, mine:S.work[m.id].trim()});
+    });
+  }
+  const early = entries.slice(0, Math.min(3, Math.floor(entries.length/2)));
+  const late = entries.slice(-3);
+  const fmt = arr => arr.map(e=>`[Day ${e.day}]\n原文：${e.src}\n参考：${e.ref}\n我的译文：${e.mine}`).join("\n\n");
+  const level = S.level==="er"?"CATTI二级笔译":"CATTI三级笔译";
+  copyText(
+`你是${level}备考教练。下面是我备考早期和近期的翻译练习对照。请给我一份阶段成长复盘，包含三部分，语气真诚具体、不要空泛的鼓励：
+一、和早期相比，我的进步具体体现在哪里（举出译文里的实例对比）；
+二、我现在最该突破的短板是什么（按对提分的重要性排序）；
+三、在现有每日计划之外，我还可以做哪些针对性的事来突破上述短板（要可执行）。
+
+【早期译文】
+${early.length?fmt(early):"（早期样本不足）"}
+
+【近期译文】
+${late.length?fmt(late):"（近期样本不足）"}`, "成长复盘指令已复制，粘贴给任意AI");
+}
+function ackMilestone(){
+  S.lastMilestone = { day:currentDayN(), practiceCount:totalPracticeCount() };
+  save(); toast("已记录，继续加油"); switchView("today");
+}
+
+/* ── 考试日程 ── */
+function renderExam(){
+  if(!S.examDate) return `<div class="panel"><p>还没有考试日期。回诊断问卷填写后即可查看日程。</p></div>`;
+  const steps = examSchedule();
+  return `<div class="panel"><h3>考试日程 · ${esc(S.examDate)}</h3>
+    <p class="small">下面的日期按往届典型提前量推算，仅供提醒——<b>报名等具体时间以官方通知为准</b>（中国人事考试网 www.cpta.com.cn）。做完一项就打勾。</p></div>
+    ${steps.map(s=>`<div class="card ${s.done?"done":""}" style="${!s.done&&s.daysLeft>=0&&s.daysLeft<=14?"border-color:var(--red)":""}">
+      <div class="chead"><h4>${s.done?"✓ ":""}${esc(s.name)}</h4><span class="mins">${s.past&&!s.done?"已过期":s.daysLeft===0?"今天":s.daysLeft>0?s.daysLeft+"天后":""} · ${esc(s.date)}</span></div>
+      <div class="cbody"><p class="note">${esc(s.note)}</p>
+      <div class="btnrow"><button class="btn ${s.done?"":"red"}" onclick="toggleExamStep('${s.key}')">${s.done?"取消标记":"标记已完成"}</button></div></div>
+    </div>`).join("")}
+    <p class="hintline">提醒会在临近时自动出现在「任务」页顶部。日期只是参考，真正的报名窗口请以官方为准，别错过。</p>`;
+}
+function toggleExamStep(key){
+  S.examSteps = S.examSteps||{};
+  S.examSteps[key] = !S.examSteps[key];
+  save(); render();
+}
+
 /* ── 设置 ── */
 function renderSettings(){
-  return `<div class="panel"><h3>进度同步</h3>
+  const fb = S.feedback||[];
+  return `<div class="panel"><h3>我的反馈（${fb.length}）</h3>
+    ${fb.length? `<p class="small">这些反馈会随同步码一起发给作者。点模块标题旁的 ✎ 可继续补充。</p>
+      ${fb.map(f=>`<p style="font-size:13px;border-bottom:1px solid var(--rule);padding:6px 0">
+        <b>Day ${f.day} · ${esc(f.title)}</b>${f.problem?`<br>问题：${esc(f.problem)}`:""}${f.suggestion?`<br>建议：${esc(f.suggestion)}`:""}</p>`).join("")}`
+      : `<p class="small">还没有反馈。使用中点任意模块标题旁的 ✎ 图标即可即时记录使用问题和改进建议。</p>`}
+  </div>
+  <div class="panel"><h3>进度同步 / 提交内测</h3>
     <p>生成同步码，换设备粘贴导入即可迁移全部进度（计划、完成记录、译文草稿、复盘）。</p>
     <div class="btnrow">
       <button class="btn primary" onclick="genSync()">生成同步码</button>
@@ -809,6 +1018,14 @@ function renderOnboarding(){
       </div>
       <p class="hintline">冲刺型：冲刺开始前进入养成期，每天只花10–20分钟滚政经词条、保持阅读输入，考前集中上强度。剩余天数不足冲刺期时自动全程冲刺。</p></div>
     <button class="cta" id="obGo" disabled onclick="obSubmit()">生成我的计划</button>
+    ${fbOpen==="__onboarding__" ? `<div class="fbpanel" style="margin-top:14px">
+      <p class="note" style="margin-bottom:6px">对「诊断问卷」即时反馈（会随同步码发给作者）</p>
+      <label class="fblabel">问题反馈</label>
+      <textarea class="fbin" id="fbp___onboarding__" placeholder="哪个问题让你犹豫 / 选项不够用 / 看不懂？">${esc((( S.feedback||[]).find(f=>f.mid==="__onboarding__")||{}).problem||"")}</textarea>
+      <label class="fblabel">改进建议</label>
+      <textarea class="fbin" id="fbs___onboarding__" placeholder="你希望诊断怎么问？">${esc((( S.feedback||[]).find(f=>f.mid==="__onboarding__")||{}).suggestion||"")}</textarea>
+      <div class="btnrow"><button class="btn primary" onclick="saveFb('__onboarding__','诊断问卷')">提交反馈</button><button class="btn" onclick="closeFb()">收起</button></div>
+    </div>` : `<div class="btnrow" style="justify-content:center;margin-top:12px"><button class="fbbtn ${fbCount("__onboarding__")?"has":""}" onclick="openFb('__onboarding__')">${fbCount("__onboarding__")?"💬 已反馈":"💬 对这个页面反馈"}</button></div>`}
   </div>`;
 }
 function bindOnboarding(){}
