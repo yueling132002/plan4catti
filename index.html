@@ -96,6 +96,11 @@
   table.words td.hint{color:var(--ink-faint);font-size:12px;}
 
   .srcbox{white-space:pre-line;background:var(--blue-soft);border-left:3px solid var(--ink);border-radius:0 8px 8px 0;padding:12px 14px;margin:10px 0;font-size:14.5px;}
+  .parallel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0;}
+  .parallel .psrc{white-space:pre-line;background:var(--blue-soft);border-left:3px solid var(--ink);border-radius:0 8px 8px 0;padding:12px 14px;font-size:14px;}
+  .parallel .pref{white-space:pre-line;background:var(--red-soft);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:12px 14px;font-size:13.5px;}
+  .hlmark{background:#FFE58A;border-radius:2px;padding:0 1px;}
+  @media (max-width:520px){.parallel{grid-template-columns:1fr;}}
   .refbox{white-space:pre-line;background:var(--red-soft);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:12px 14px;margin:10px 0;font-size:14px;}
   .refbox .rlabel{color:var(--red);font-weight:700;font-size:12px;letter-spacing:.15em;margin-bottom:4px;}
 
@@ -219,7 +224,7 @@ const LIBRARY = [
 {"day": 32, "theme": "模考·民生绿色", "modules": [{"type": "review", "slot": "am", "mins": 150, "title": "模考日", "body": "主题：民生社会 + 绿色发展。早上：英译汉模拟（限时60分钟） 晚上：汉译英模拟（限时60分钟）；批改重点：；民生类易混词（old-age benefits vs pension benefits vs old-age insurance）；环保数据表达（fell by / rose to / dropped by）；\"渐进式延迟退休\"\"个人养老金制度\"\"长期护理保险\""}]},
 {"day": 33, "theme": "模考·治理外交", "modules": [{"type": "review", "slot": "am", "mins": 150, "title": "模考日", "body": "主题：治理安全 + 外交。早上：英译汉模拟（限时60分钟） 晚上：汉译英模拟（限时60分钟）；批改重点：；党建类长搭配（八项规定/从严治党/形式主义）；外交类固定表达（人类命运共同体/多边主义/建设性作用）；机构全称是否准确"}]},
 {"day": 34, "theme": "查漏补缺", "modules": [{"type": "review", "slot": "am", "mins": 150, "title": "模考日", "body": "全天查漏补缺；早上：；把 Day 30-33 批改中标红的所有错误整理成一张\"错题清单\"；按类型分组：术语错误 / 漏译 / 句式不通 / 数据错误；重做错误最多的2段翻译；晚上：；快速过全部210个热词（20分钟内完成）；重点默写\"错题清单\"中的术语（目标：全部写对）；看一遍万能句式速查卡"}]},
-{"day": 35, "theme": "考前收心", "modules": [{"type": "review", "slot": "am", "mins": 150, "title": "模考日", "body": "轻松复习，早睡；早上：；只看高频易错术语总表（本文第一部分），不做新题；看一遍万能句式速查卡；看一遍常用动词对照表；晚上：；21:00前结束所有复习；准备考试物品；早睡；五、考前最后检查清单；物品准备； 准考证（打印两份）； 身份证； 黑色签字笔（至少3支）； 手表（考场可能没有钟）； 水和纸巾；考试策略； 实务科目120分钟，两篇翻译（英译汉+汉译英）； 每篇控制在55分钟内，留10分钟检查； 检查重点：漏译 → 术语 → 数据 → 通顺度； 遇到不会的词，先跳过写完全篇，再回来处理； 汉译英时：先确定主干结构，再填充修饰成分；考场翻译原则； 准确第一：术语用官方译法，不自创； 不漏译：每个信息点都要体现，哪怕表达不完美； 通顺：英文要像英文，不要中式英语； 四字格合并：意思重复的并列词组合并翻译； 数据必对：万→million，亿→100 million，万亿→trillion；心态提醒； 三笔通过率不低，不需要翻得\"漂亮\"，只需要\"准确+通顺+不漏\"； 综合能力是选择题，不确定的先选最顺眼的，不要纠结"}]}
+{"day": 35, "theme": "考前收心", "modules": [{"type": "examprep", "slot": "am", "mins": 60, "title": "考前收心 · 轻松复习", "intro": "今天不做新题，只回顾高频易错点和万能句式，晚上9点前结束所有复习，准备好考试物品，早睡。", "checklist": [{"g": "必带物品", "items": ["准考证（打印两份）", "身份证", "黑色签字笔（至少3支）", "英汉、汉英纸质词典各一本", "手表（考场可能没有钟）", "水和纸巾"]}, {"g": "考试策略", "items": ["实务3小时四篇，先给每篇分配时间再动笔", "每篇留几分钟检查，先易后难", "检查顺序：漏译 → 术语 → 数据 → 通顺度", "遇到不会的词先跳过，写完全篇再回来处理", "汉译英先定主干结构，再填修饰成分"]}, {"g": "考场原则", "items": ["准确第一：术语用官方译法，不自创", "不漏译：每个信息点都要落地，哪怕表达不完美", "通顺：写像英文的英文，避免中式英语", "四字格：意思重复的并列词组合并翻译", "数据必对：万→million，亿→100 million，万亿→trillion"]}, {"g": "心态", "items": ["不需要翻得漂亮，只需要准确+通顺+不漏", "综合是选择题，不确定时选最顺眼的，别纠结", "早睡，睡够比多看一小时更重要"]}]}]}
 ];
 
 /* ── 泛读指引清单：每周维护，往数组头部加当周篇目即可 ──
@@ -246,13 +251,36 @@ const READLIST = [
 
 /* ── 考试日程节点：相对考试日的典型提前量（天）。用户填考试日后推算 ── */
 const EXAM_STEPS = [
-  {key:"reg_open",  offset:75, name:"报名开始",     note:"CATTI一般考前2-3个月报名，留意中国人事考试网/当地人事考试中心通知，别错过窗口。"},
-  {key:"reg_close", offset:60, name:"报名截止/缴费", note:"完成报名并缴费，逾期不补。核对报考级别、科目、考点信息。"},
+  {key:"reg_open",  userset:true, name:"报名开始",     note:"CATTI报名时间每年、每省不同，须以官方通知为准（中国人事考试网 www.cpta.com.cn 或当地人事考试中心）。查到后把日期填在这里。"},
+  {key:"reg_close", userset:true, name:"报名截止/缴费", note:"完成报名并缴费，逾期不补。日期以官方通知为准，查到后填在这里。核对报考级别、科目、考点。"},
+  {key:"admission", userset:true, name:"打印准考证",    note:"准考证一般考前一周开放打印，具体以官方通知为准。查到后填在这里。多打两份，记下考点地址和时间。"},
   {key:"dict",      offset:20, name:"备好纸质词典",  note:"实务允许带纸质词典：英汉、汉英各一本（电子词典不可）。经典：陆谷孙《英汉大词典》+《新世纪汉英大词典》。现在下单，别等考前买不到。"},
-  {key:"admission", offset:5,  name:"打印准考证",    note:"准考证一般考前一周开放打印，多打两份备用，记下考点地址和考试时间。"},
   {key:"prep",      offset:1,  name:"考前准备",      note:"身份证+准考证+两本纸质词典+黑色签字笔+手表。提前踩点考场，机考熟悉输入法。早睡。"},
   {key:"exam",      offset:0,  name:"考试日",        note:"综合上午、实务下午。实务3小时四篇，注意时间分配，先易后难，务必写完。"}
 ];
+
+/* ── 每日微翻译句库：每天各给1句 C→E 和 E→C，强度可调 ──
+   cat类别 / focus考核重点 / freq考频。E→C 英文均取自甲类可商用源。
+   level: 1=词句级 2=长句 3=句群，按强度递增取用 ── */
+const MICRO = {
+  c2e:[
+    {level:1,cat:"经济",focus:"数据表达",freq:"高",src:"去年国内生产总值增长5%。",ref:"GDP grew by 5 percent last year."},
+    {level:1,cat:"民生",focus:"就业术语",freq:"高",src:"全年城镇新增就业1256万人。",ref:"A total of 12.56 million urban jobs were created over the year."},
+    {level:2,cat:"科技",focus:"融合句式",freq:"高",src:"我们推动科技创新和产业创新深度融合。",ref:"We promoted full integration between technological and industrial innovation."},
+    {level:2,cat:"环保",focus:"目标句",freq:"中",src:"到2027年，废旧家电回收量比2023年增长30%。",ref:"By 2027, the volume of used home appliances recycled will have increased by 30 percent over 2023."},
+    {level:2,cat:"改革",focus:"清障句式",freq:"高",src:"清理废除妨碍全国统一大市场的规定。",ref:"We overhauled and abolished regulations impeding the unified national market."},
+    {level:3,cat:"外交",focus:"排比长句",freq:"中",src:"中国愿同各国一道，践行真正的多边主义，维护以联合国为核心的国际体系，推动构建人类命运共同体。",ref:"China stands ready to work with all countries to practice true multilateralism, uphold the UN-centered international system, and promote a human community with a shared future."},
+    {level:3,cat:"文化",focus:"文化概念",freq:"中",src:"中华文明源远流长、博大精深，是中华民族独特的精神标识。",ref:"With a long history and profound depth, Chinese civilization is the unique spiritual hallmark of the Chinese nation."}
+  ],
+  e2c:[
+    {level:1,cat:"经济金融",focus:"金融术语",freq:"高",src:"Inflation has eased over the past year, but remains above our long-run goal.",ref:"过去一年通胀有所缓解，但仍高于我们的长期目标。",from:"美联储讲话（公有领域）"},
+    {level:1,cat:"发展",focus:"趋势动词",freq:"高",src:"Extreme poverty has declined sharply in the region over the past two decades.",ref:"过去二十年，该地区的极端贫困显著下降。",from:"World Bank（CC BY 4.0）"},
+    {level:2,cat:"环保",focus:"因果长句",freq:"高",src:"As global temperatures rise, the frequency and intensity of extreme weather events are expected to increase, placing millions at risk.",ref:"随着全球气温上升，极端天气事件的频率和强度预计将加剧，使数百万人面临风险。",from:"World Bank（CC BY 4.0）"},
+    {level:2,cat:"科技",focus:"科普句式",freq:"中",src:"The spacecraft will orbit the Moon before descending to explore the largely uncharted far side.",ref:"该航天器将先环绕月球，随后下降，探索这片基本未知的月球背面。",from:"NASA（公有领域）"},
+    {level:3,cat:"经济",focus:"论述句群",freq:"高",src:"Monetary policy is not on a preset course. We will continue to make our decisions meeting by meeting, weighing the full range of incoming data and the evolving outlook against the risks to our goals.",ref:"货币政策并非预设路径。我们将继续在每次会议上逐次决策，综合权衡各项新数据、不断变化的前景以及实现目标所面临的风险。",from:"美联储讲话（公有领域）"},
+    {level:3,cat:"文化散文",focus:"随笔笔调",freq:"中",src:"To play the game is one thing; to play it as though nothing else in the world mattered is quite another.",ref:"参与竞技是一回事；全身心投入、仿佛世间再无他事，则是另一回事。",from:"公有领域散文"}
+  ]
+};
 
 /* ── 状态 ── */
 const K = "coach_state_v1";
@@ -292,22 +320,61 @@ function milestoneDue(){
   const byDays = currentDayN() - last.day >= thresh;
   return byCount || byDays;
 }
-/* ── 考试日程：由考试日推算各节点 ── */
+/* ── 考试日程：offset节点由考试日推算；userset节点由用户填写日期 ── */
 function examSchedule(){
   if(!S.examDate) return [];
   const ex = new Date(S.examDate);
   const today = new Date(todayStr());
+  const dates = S.examStepDates || {};
   return EXAM_STEPS.map(s=>{
-    const d = new Date(ex); d.setDate(d.getDate() - s.offset);
-    const daysLeft = Math.round((d - today)/86400000);
+    let dateStr;
+    if(s.userset){
+      dateStr = dates[s.key] || null; // 用户未填则无日期
+    } else {
+      const d = new Date(ex); d.setDate(d.getDate() - s.offset);
+      dateStr = d.toISOString().slice(0,10);
+    }
+    const daysLeft = dateStr ? Math.round((new Date(dateStr) - today)/86400000) : null;
     const done = (S.examSteps||{})[s.key];
-    return {...s, date:d.toISOString().slice(0,10), daysLeft, done, past:daysLeft<0};
+    return {...s, date:dateStr, daysLeft, done, past:(daysLeft!==null && daysLeft<0)};
   });
 }
 function nextExamStep(){
-  return examSchedule().find(s=>!s.done && s.daysLeft>=0) || null;
+  // 只提醒有日期、未完成、未过期的节点
+  return examSchedule().find(s=>!s.done && s.daysLeft!==null && s.daysLeft>=0) || null;
 }
 const $ = id => document.getElementById(id);
+/* ── 背词页主题映射（与背词页 THEMES 顺序一致）──
+   教练第 N 天的词 = 背词页第 N 号词库；下面按背词页的主题分组，
+   用于把教练热词卡直接跳转到背词页对应主题（出路A）。──*/
+const BACKWORD_BASE = "https://yueling132002.github.io/myplan-word/";
+const BW_THEMES = [
+  { name:"政经总述与宏观政策", days:[1,15,29,36] },
+  { name:"统一大市场与营商环境", days:[2,18,27] },
+  { name:"科技创新与产业", days:[3,5,6,17,26] },
+  { name:"对外开放与外贸", days:[4] },
+  { name:"就业与民生保障", days:[7,8,20] },
+  { name:"绿色低碳与生态", days:[9,10,21] },
+  { name:"财政金融与房地产", days:[11,25] },
+  { name:"作风建设与依法行政", days:[12,22] },
+  { name:"大国外交与全球治理", days:[13,14,23,24] },
+  { name:"城镇化与乡村振兴", days:[19,28] },
+  { name:"易错词与数字·句式专练", days:[30,31,32,33,34,35] }
+];
+function backwordJump(coachDay){
+  // 冲刺型养成期/冲刺期都用 lib.day 对应背词页 day；找到它在哪个主题的第几部分
+  const d = S.plan ? (LIBRARY[S.plan.days[coachDay-1].lib].day) : coachDay;
+  for(let ti=0; ti<BW_THEMES.length; ti++){
+    const pi = BW_THEMES[ti].days.indexOf(d);
+    if(pi>=0){
+      const multi = BW_THEMES[ti].days.length>1;
+      const label = BW_THEMES[ti].name + (multi?`·第${pi+1}部分`:"");
+      // 背词页支持 ?day=N 直接定位到具体词库
+      return { url:`${BACKWORD_BASE}?day=${d}`, label };
+    }
+  }
+  return { url:BACKWORD_BASE, label:"主线词库" };
+}
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
 function todayStr(){ return new Date().toISOString().slice(0,10); }
@@ -364,6 +431,18 @@ function adjustedMins(m){
   return mins;
 }
 
+function microModule(dayN, slot){
+  // 强度：用户可调，默认按阶段。inc→level1为主，sprint→逐步到2/3
+  const intensity = S.microLevel || 0; // 0=自动
+  const auto = (S.plan && dayN > (S.plan.inc||0)) ? 2 : 1;
+  const lvl = intensity || auto;
+  const pick = (arr)=>{
+    const pool = arr.filter(x=>x.level<=lvl);
+    return pool[dayN % pool.length];
+  };
+  return { type:"micro", slot, mins:10, id:`d${dayN}micro`,
+    title:"每日微翻译", c2e:pick(MICRO.c2e), e2c:pick(MICRO.e2c), lvl };
+}
 function modulesForDay(dayN){
   const d = S.plan.days[dayN-1];
   const lib = LIBRARY[d.lib];
@@ -371,7 +450,8 @@ function modulesForDay(dayN){
     const vsrc = lib.modules.find(m=>m.type==="vocab");
     const mods = [{ type:"vocab", slot:"am", mins:10, id:`d${dayN}m0`,
       title:"政经词条 · 低强度滚动", words:vsrc.words,
-      method:"养成期不求快：把这批词导入背词页，跟着间隔复习队列走，每天10分钟。同一批词连续出现3天，靠重复长牢。政经词条不在专八/GRE的日常词汇体系里，正因如此才要趁时间充裕慢慢养。" }];
+      method:"养成期不求快：点下面按钮去背词页背这组，跟着它的间隔复习队列走，每天10分钟。同一批词连续出现3天，靠重复长牢。政经词条不在专八/GRE的日常词汇体系里，正因如此才要趁时间充裕慢慢养。" }];
+    mods.push(microModule(dayN, "am"));
     const w = (dayN-1)%7;
     if(w===2){
       const r = lib.modules.find(m=>m.type==="reading");
@@ -385,6 +465,10 @@ function modulesForDay(dayN){
     return { lib, mods, stub:false, mode:"inc" };
   }
   let mods = lib.modules.map((m,i)=>({...m, id:`d${dayN}m${i}`}));
+  // 模考日/考前收心日：这些天只做模考或收心，不叠加日常微翻译、泛读、语法诊所等
+  const isExamPhase = lib.modules.some(m=>m.type==="examprep") || (lib.modules[0]&&lib.modules[0].title==="模考日");
+  if(isExamPhase) return { lib, mods, stub:d.stub, mode:"sprint" };
+  mods.push(microModule(dayN, "pm"));
   if(S.hours==="2" && !S.weak.includes("zonghe")) mods = mods.filter(m=>m.type!=="comprehensive");
   if(S.weak.includes("typing")) mods.push({type:"typing", slot:"pm", mins:10, id:`d${dayN}typing`, title:"打字提速练习", body:"随便打开一个空文档（手机备忘录、电脑记事本都行），把今天精读的中文参考译文照着敲一遍，计时。实务是机考，中文录入速度直接影响能不能写完。目标：中文40字/分钟以上。记录今天的速度，复盘时填写。"});
   if((S.focus||[]).includes("gram")){
@@ -518,11 +602,11 @@ function renderToday(){
   }
   const am = mods.filter(m=>m.slot==="am"), pm = mods.filter(m=>m.slot!=="am");
   html += renderSlot("早", am) + renderSlot("晚", pm);
-  // 考试日程临近提醒
+  // 考试日程临近提醒：仅在节点7天内出现，且只提醒一次性事务而非每天刷屏
   const nx = nextExamStep();
-  if(nx && nx.daysLeft<=nx.offset && nx.daysLeft<=14){
+  if(nx && nx.daysLeft<=7){
     html += `<div class="card" style="border-color:var(--red)"><div class="chead"><h4>📌 ${esc(nx.name)}</h4><span class="mins">${nx.daysLeft===0?"就是今天":nx.daysLeft+"天后"}</span></div>
-      <div class="cbody"><p class="note">${esc(nx.note)}</p><div class="btnrow"><button class="btn red" onclick="switchView('exam')">查看考试日程</button></div></div></div>`;
+      <div class="cbody"><p class="note">${esc(nx.note)}</p><div class="btnrow"><button class="btn red" onclick="switchView('exam')">设定考试日程</button></div></div></div>`;
   }
   // 里程碑提醒
   if(milestoneDue()){
@@ -552,35 +636,37 @@ function renderModule(m){
   let body = "";
 
   if(m.type==="vocab"){
+    const jump = backwordJump(shownDay());
     body = `<table class="words"><tr><th>中文</th><th>英文</th><th>提示</th></tr>
       ${m.words.map(w=>`<tr><td>${esc(w.zh)}</td><td class="en">${esc(w.en)}</td><td class="hint">${esc(w.hint||"")}</td></tr>`).join("")}</table>
-      <p class="note">${esc(m.method||"")}</p>
+      <p class="note">${esc(m.method||"这些词都已在背词页里。直接去背词页背对应主题，用它的间隔复习和默写功能，不用手动导入。")}</p>
       <div class="btnrow">
-        <button class="btn primary" onclick="copyVocab('${m.id}')">复制导入文本（背词页格式）</button>
-        <button class="btn" onclick="window.open('https://yueling132002.github.io/my-word/','_blank')">打开背词页</button>
+        <button class="btn primary" onclick="window.open('${jump.url}','_blank')">去背词页背这组：${esc(jump.label)} →</button>
       </div>
-      <p class="note" style="margin-top:6px">粘贴到背词页「批量导入」即可，格式已兼容（中文Tab英文Tab提示）。</p>`;
+      <p class="note" style="margin-top:6px">上表仅供预览。点上面按钮会直接打开背词页并定位到「${esc(jump.label)}」，背诵、默写、滚动复习都在背词页完成。</p>`;
   }
   if(m.type==="reading"){
     const gramNote = (S.focus||[]).includes("gram") ? `<p class="note" style="color:var(--red)">复盘重点：你近期语法失分多，今天重点看拆解表里的句式处理，别只记词组。</p>` : "";
     const colloHtml = m.collos ? `<p class="note" style="margin-top:8px">今日搭配（短，硬背）：</p>${m.collos.map(c=>`<span class="phrase">${esc(c.en)}<i>${esc(c.zh)}</i></span>`).join("")}` : "";
-    const frameHtml = m.frames ? `<p class="note" style="margin-top:10px">今日句型（背结构，不背原句）：</p>${m.frames.map(f=>`
+    const frameHtml = m.frames ? `<p class="note" style="margin-top:10px">今日句型（左边看结构，右边是可默写的完整例句）：</p>${m.frames.map(f=>`
       <div class="framebox"><span class="funcbadge">${esc(f.func)}</span>
         <div class="fpattern">${esc(f.pattern).replace(/\[([^\]]+)\]/g,'<b class="slot">[$1]</b>')}</div>
-        <details><summary>原句与迁移例句</summary>
+        <details><summary>原句与可默写例句</summary>
           <p class="note">原句：${esc(f.example)}</p>
-          <p class="note">迁移（换题材验证你背的是结构）：${esc(f.transfer)}</p>
+          <p class="note">套用例句（换题材，进背词页背这句）：${esc(f.transfer)}</p>
         </details>
       </div>`).join("")}` : "";
     const legacy = (!m.collos && m.phrases) ? `<p class="note">今日固定搭配：</p>${m.phrases.map(p=>`<span class="phrase">${esc(p)}</span>`).join("")}` : "";
-    body = `${gramNote}<div class="srcbox">${esc(m.src)}</div>
-      <p class="note">先自己动笔翻，再展开参考。</p>
-      <details><summary>展开参考译文与逐句拆解</summary>
-        <div class="refbox"><div class="rlabel">参考译文</div>${esc(m.ref)}</div>
+    body = `${gramNote}<p class="note">中英对照阅读（双击任意句子高亮难点/亮点）：</p>
+      <div class="parallel">
+        <div class="psrc" ondblclick="hl(event)">${esc(m.src)}</div>
+        <div class="pref" ondblclick="hl(event)">${esc(m.ref)}</div>
+      </div>
+      <details style="margin-top:8px"><summary>逐句拆解 · 搭配 · 句型</summary>
         <table class="words"><tr><th>中文</th><th>官方译法</th><th>技巧</th></tr>
           ${m.breakdown.map(b=>`<tr><td>${esc(b[0])}</td><td class="en">${esc(b[1])}</td><td class="hint">${esc(b[2])}</td></tr>`).join("")}</table>
         ${colloHtml}${frameHtml}${legacy}
-        ${(m.collos||m.frames)?`<div class="btnrow" style="margin-top:10px"><button class="btn primary" onclick="copyAssets('${m.id}')">复制搭配+句型导入文本（背词页格式）</button></div>`:""}
+        ${(m.collos||m.frames)?`<div class="btnrow" style="margin-top:10px"><button class="btn primary" onclick="copyAssets('${m.id}')">复制搭配+句型例句导入文本（背词页格式）</button></div>`:""}
       </details>`;
   }
   if(m.type==="practice"){
@@ -599,14 +685,37 @@ function renderModule(m){
       </div>
       <p class="note" style="margin-top:6px">粘贴给豆包 / DeepSeek / Kimi，指令里已带原文、参考译文、你的译文和CATTI评分要求。</p>`;
   }
+  if(m.type==="micro"){
+    const tag = (x)=>`<span class="phrase">${esc(x.cat)}</span><span class="phrase">考点·${esc(x.focus)}</span><span class="phrase">考频·${esc(x.freq)}</span>`;
+    const one = (x, dir, label)=>{
+      const wid = m.id+"_"+dir;
+      const saved = (S.work||{})[wid]||"";
+      return `<div style="margin:8px 0 4px"><b style="font-size:13.5px">${label}</b> ${tag(x)}${x.from?`<span class="phrase" style="color:var(--ink-faint)">来源·${esc(x.from)}</span>`:""}</div>
+        <div class="srcbox" ondblclick="hl(event)">${esc(x.src)}</div>
+        <textarea class="mywork" id="wk_${wid}" style="min-height:60px" placeholder="写你的译文（自动保存）" oninput="saveWork('${wid}')">${esc(saved)}</textarea>
+        <details><summary>参考译文</summary><div class="refbox" ondblclick="hl(event)">${esc(x.ref)}</div></details>`;
+    };
+    body = `<p class="note">每天必练：一句${["","词句级","长句","句群"][m.lvl]||""}的双向翻译。动笔比看重要。双击句子可高亮难点。</p>
+      ${one(m.c2e,"c2e","汉译英")}
+      ${one(m.e2c,"e2c","英译汉")}
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn" onclick="cycleMicroLevel()">强度：${["自动","词句级","长句","句群"][S.microLevel||0]} · 点击调整</button>
+        <button class="btn primary" onclick="copyMicroPrompt('${m.id}')">复制批改指令</button>
+      </div>`;
+  }
   if(m.type==="grammar"){
     const bank = GRAMBANK[m.pat];
-    body = `<p class="note">复盘判定你的语法病灶包含「${esc(bank.name)}」。下面每句都有错：先自己改，再展开对照。诊所会每天轮换病灶开诊，直到下次复盘。</p>
-      ${bank.drills.map((d,i)=>`
+    body = `<p class="note">复盘判定你的语法病灶包含「${esc(bank.name)}」。这是"改错练习"：下面每句都<b>藏着一个错</b>，先在框里改对，再展开对照答案和解析。改错比背语法书更贴近翻译考场。</p>
+      ${bank.drills.map((d,i)=>{
+        const wid = m.id+"_"+i;
+        const saved = (S.work||{})[wid]||"";
+        return `
         <div class="srcbox" style="font-family:var(--mono);font-size:13px">${i+1}. ${esc(d.q)}</div>
-        <details><summary>展开改正与解析</summary>
-          <div class="refbox"><div class="rlabel">改正</div><span style="font-family:var(--mono);font-size:13px">${esc(d.fix)}</span><p class="note" style="margin-top:6px">${esc(d.why)}</p></div>
-        </details>`).join("")}
+        <textarea class="mywork" id="wk_${wid}" style="min-height:44px" placeholder="把你改对的整句写在这里" oninput="saveWork('${wid}')">${esc(saved)}</textarea>
+        <details><summary>对照答案与解析</summary>
+          <div class="refbox"><div class="rlabel">正确</div><span style="font-family:var(--mono);font-size:13px">${esc(d.fix)}</span><p class="note" style="margin-top:6px">${esc(d.why)}</p></div>
+        </details>`;
+      }).join("")}
       <div class="btnrow"><button class="btn primary" onclick="copyGramPrompt()">复制专属改错题指令（基于我的译文）</button></div>
       <p class="note" style="margin-top:6px">指令会打包你最近留存的译文，让AI从你的真实错误里再出5道同模式新题。</p>`;
   }
@@ -619,7 +728,36 @@ function renderModule(m){
       <ul class="checks">${r.questions.map((q,i)=>`<li><input type="checkbox" id="rq_${m.id}_${i}"><label for="rq_${m.id}_${i}">${esc(q)}</label></li>`).join("")}</ul>
       <p class="note">读后动作：摘3个想据为己有的表达进术语本。养成期的目标是保持输入的手感，不是做题。版权刊物仅阅读，请勿转载。</p>`;
   }
-  if(m.type==="review"||m.type==="comprehensive"||m.type==="typing"){
+  if(m.type==="examprep"){
+    body = `<p class="note">${esc(m.intro)}</p>
+      ${m.checklist.map(grp=>`
+        <p style="font-weight:600;font-size:14px;margin:12px 0 4px">${esc(grp.g)}</p>
+        <ul class="checks">${grp.items.map((it,i)=>`<li><input type="checkbox" id="cl_${m.id}_${esc(grp.g)}_${i}"><label for="cl_${m.id}_${esc(grp.g)}_${i}">${esc(it)}</label></li>`).join("")}</ul>
+      `).join("")}`;
+  }
+  if(m.type==="review" && m.title==="模考日"){
+    // 模考日：把分号压缩的 body 拆成小标题+要点，排版清爽
+    const parts = m.body.split(/[；;]/).map(s=>s.trim()).filter(Boolean);
+    const html2 = [];
+    parts.forEach(p=>{
+      if(p.endsWith("：")||p.endsWith(":")||/^(早上|晚上|批改重点|全天|主题)/.test(p)){
+        html2.push(`<p style="font-weight:600;font-size:14px;margin:10px 0 2px">${esc(p.replace(/[:：]$/,""))}</p>`);
+      } else {
+        html2.push(`<p class="note" style="margin-left:8px">· ${esc(p)}</p>`);
+      }
+    });
+    body = html2.join("");
+  } else if(m.type==="review"){
+    body = `<p>${esc(m.body)}</p>
+      <div class="fbpanel" style="border-style:solid;border-color:var(--rule);background:var(--paper)">
+        <p class="note" style="margin-bottom:6px"><b>怎么"默写"和记"术语本"（都在背词页完成，不用另拿本子）：</b></p>
+        <p class="note">① 默写 = 背词页里遮住一侧、回忆另一侧。去背词页用「🔄 滚动复习」按钮，中英互遮着回忆，比在这里看答案有效得多。</p>
+        <p class="note">② 术语本 = 背词页里你的自定义词库。今天精读/练习里不会的表达，用下面按钮导出，一键并入背词页，它就是你的电子术语本。</p>
+        <div class="btnrow"><button class="btn primary" onclick="copyReviewExport('${m.id}')">导出今日待记表达 → 背词页</button>
+        <button class="btn" onclick="window.open('https://yueling132002.github.io/myplan-word/','_blank')">打开背词页复习</button></div>
+      </div>`;
+  }
+  if(m.type==="comprehensive"||m.type==="typing"){
     body = `<p>${esc(m.body)}</p>`;
   }
   if(m.type==="weekly"){
@@ -656,13 +794,56 @@ function copyAssets(mid){
   if(!m) return;
   const lines = [];
   (m.collos||[]).forEach(c=>lines.push([c.zh, c.en, "搭配"].join("\t")));
-  (m.frames||[]).forEach(f=>lines.push([f.func, f.pattern, "迁移："+f.transfer].join("\t")));
-  copyText(lines.join("\n"), "搭配+句型已复制，去背词页粘贴导入");
+  // 句型：导出干净的迁移例句供默写，中文侧用功能标签，不导带方括号的框架
+  (m.frames||[]).forEach(f=>lines.push([f.func+"（套用练习）", f.transfer, "句型·"+f.pattern.replace(/\[[^\]]*\]/g,"…")].join("\t")));
+  copyText(lines.join("\n"), "搭配+句型例句已复制，去背词页粘贴导入");
 }
 function copyPrompt(mid){
   const m = findModule(mid);
   const txt = ($("wk_"+mid)||{}).value || "";
   if(m) copyText(buildPrompt(m, txt), "批改指令已复制，粘贴给任意AI即可");
+}
+function copyReviewExport(mid){
+  const dayN = shownDay();
+  const lines = [];
+  modulesForDay(dayN).mods.forEach(m=>{
+    if(m.type==="reading"){
+      (m.collos||[]).forEach(c=>lines.push([c.zh,c.en,"搭配"].join("\t")));
+      (m.frames||[]).forEach(f=>lines.push([f.func+"（套用练习）",f.transfer,"句型·"+f.pattern.replace(/\[[^\]]*\]/g,"…")].join("\t")));
+    }
+  });
+  if(!lines.length){ toast("今天没有可导出的精读表达，手动加你练习里的错处即可"); return; }
+  copyText(lines.join("\n"), "今日待记表达已复制，粘到背词页批量导入即可");
+}
+function hl(e){
+  const sel = window.getSelection();
+  if(sel && String(sel).trim()){
+    const span = document.createElement("span");
+    span.className = "hlmark";
+    try{ sel.getRangeAt(0).surroundContents(span); sel.removeAllRanges(); }catch(_){}
+  }
+}
+function cycleMicroLevel(){
+  S.microLevel = ((S.microLevel||0)+1) % 4;
+  save(); render();
+  toast("强度：" + ["自动","词句级","长句","句群"][S.microLevel]);
+}
+function copyMicroPrompt(mid){
+  const m = findModule(mid);
+  if(!m) return;
+  const c2eMine = ($("wk_"+mid+"_c2e")||{}).value || "";
+  const e2cMine = ($("wk_"+mid+"_e2c")||{}).value || "";
+  const level = S.level==="er"?"CATTI二级笔译":"CATTI三级笔译";
+  copyText(
+`你是${level}阅卷专家。批改我下面两句翻译，逐句指出漏译、误译、搭配和语法问题，并给出改进建议。不要客套，按考试标准从严。
+
+【汉译英】原文：${m.c2e.src}
+参考：${m.c2e.ref}
+我的译文：${c2eMine||"（未填写）"}
+
+【英译汉】原文：${m.e2c.src}
+参考：${m.e2c.ref}
+我的译文：${e2cMine||"（未填写）"}`, "微翻译批改指令已复制");
 }
 function copyGramPrompt(){
   const cur = currentDayN(), wk = [];
@@ -929,14 +1110,23 @@ function ackMilestone(){
 function renderExam(){
   if(!S.examDate) return `<div class="panel"><p>还没有考试日期。回诊断问卷填写后即可查看日程。</p></div>`;
   const steps = examSchedule();
-  return `<div class="panel"><h3>考试日程 · ${esc(S.examDate)}</h3>
-    <p class="small">下面的日期按往届典型提前量推算，仅供提醒——<b>报名等具体时间以官方通知为准</b>（中国人事考试网 www.cpta.com.cn）。做完一项就打勾。</p></div>
-    ${steps.map(s=>`<div class="card ${s.done?"done":""}" style="${!s.done&&s.daysLeft>=0&&s.daysLeft<=14?"border-color:var(--red)":""}">
-      <div class="chead"><h4>${s.done?"✓ ":""}${esc(s.name)}</h4><span class="mins">${s.past&&!s.done?"已过期":s.daysLeft===0?"今天":s.daysLeft>0?s.daysLeft+"天后":""} · ${esc(s.date)}</span></div>
+  return `<div class="panel"><h3>考试日程 · 考试日 ${esc(S.examDate)}</h3>
+    <p class="small">报名、缴费、打印准考证的时间<b>每年每省不同，须以官方通知为准</b>（中国人事考试网 www.cpta.com.cn 或当地人事考试中心）。查到后把日期填在对应节点，工具会在临近时提醒你；备考事务（词典、考前准备）已按考试日自动推算。</p></div>
+    ${steps.map(s=>{
+      const near = !s.done && s.daysLeft!==null && s.daysLeft>=0 && s.daysLeft<=7;
+      const statusTxt = s.past&&!s.done ? "已过期" : s.daysLeft===0 ? "就是今天" : s.daysLeft>0 ? s.daysLeft+"天后" : (s.userset?"待填日期":"");
+      return `<div class="card ${s.done?"done":""}" style="${near?"border-color:var(--red)":""}">
+      <div class="chead"><h4>${s.done?"✓ ":""}${esc(s.name)}</h4><span class="mins">${statusTxt}${s.date?" · "+esc(s.date):""}</span></div>
       <div class="cbody"><p class="note">${esc(s.note)}</p>
-      <div class="btnrow"><button class="btn ${s.done?"":"red"}" onclick="toggleExamStep('${s.key}')">${s.done?"取消标记":"标记已完成"}</button></div></div>
-    </div>`).join("")}
-    <p class="hintline">提醒会在临近时自动出现在「任务」页顶部。日期只是参考，真正的报名窗口请以官方为准，别错过。</p>`;
+      ${s.userset?`<div class="btnrow" style="align-items:center"><span class="note">官方公布后填这里：</span><input type="date" value="${esc(s.date||"")}" onchange="setExamStepDate('${s.key}', this.value)" style="border:1px solid var(--rule);border-radius:6px;padding:5px 9px;font-size:13px;background:var(--paper);color:var(--ink)"></div>`:""}
+      <div class="btnrow"><button class="btn ${s.done?"":"red"}" onclick="toggleExamStep('${s.key}')" ${s.userset&&!s.date?"disabled":""}>${s.done?"取消完成标记":"标记已完成"}</button></div></div>
+    </div>`;}).join("")}
+    <p class="hintline">带日期的未完成节点，会在其前7天自动到「任务」页顶部提醒你一次。</p>`;
+}
+function setExamStepDate(key, val){
+  S.examStepDates = S.examStepDates||{};
+  if(val) S.examStepDates[key] = val; else delete S.examStepDates[key];
+  save(); render();
 }
 function toggleExamStep(key){
   S.examSteps = S.examSteps||{};
