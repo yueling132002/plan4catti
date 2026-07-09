@@ -896,7 +896,11 @@ function renderPlan(){
     }
     return `<div class="phase"><h3>${esc(ph.name)}<span>Day ${ph.from}–${ph.to}</span></h3><div class="dgrid">${cells.join("")}</div></div>`;
   }).join("");
-  return html + `<p class="hintline">点任意一天可进入。带 ② 的虚线格 = 二轮复用素材（冲刺期长于35天时，素材过完一轮后进入二轮巩固）。</p>`;
+  return html + `<p class="hintline">点任意一天可进入。带 ② 的虚线格 = 二轮复用素材（冲刺期长于35天时，素材过完一轮后进入二轮巩固）。</p>
+    <div style="text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)">
+      <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px">扫码加入备考群聊</p>
+      <img src="qrcode.jpg" alt="备考群二维码" style="width:160px;border-radius:8px;box-shadow:var(--shadow)">
+    </div>`;
 }
 
 /* ── 复盘 ── */
@@ -1155,7 +1159,10 @@ function renderSettings(){
   <div class="panel"><h3>重新诊断</h3>
     <p>考试日期、每日时长或弱项变了，重新生成计划（完成记录会保留）。</p>
     <div class="btnrow"><button class="btn red" onclick="resetPlan()">重新填写诊断问卷</button></div>
-  </div>`;
+    <div style="text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)">
+      <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px">扫码加入备考群聊</p>
+      <img src="qrcode.jpg" alt="备考群二维码" style="width:160px;border-radius:8px;box-shadow:var(--shadow)">
+    </div>  </div>`;
 }
 function genSync(){
   const code = "COACH1." + btoa(unescape(encodeURIComponent(JSON.stringify(S))));
@@ -1216,7 +1223,10 @@ function renderOnboarding(){
       <textarea class="fbin" id="fbs___onboarding__" placeholder="你希望诊断怎么问？">${esc((( S.feedback||[]).find(f=>f.mid==="__onboarding__")||{}).suggestion||"")}</textarea>
       <div class="btnrow"><button class="btn primary" onclick="saveFb('__onboarding__','诊断问卷')">提交反馈</button><button class="btn" onclick="closeFb()">收起</button></div>
     </div>` : `<div class="btnrow" style="justify-content:center;margin-top:12px"><button class="fbbtn ${fbCount("__onboarding__")?"has":""}" onclick="openFb('__onboarding__')">${fbCount("__onboarding__")?"💬 已反馈":"💬 对这个页面反馈"}</button></div>`}
-  </div>`;
+    <div style="text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)">
+      <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px">扫码加入备考群聊</p>
+      <img src="qrcode.jpg" alt="备考群二维码" style="width:160px;border-radius:8px;box-shadow:var(--shadow)">
+    </div>  </div>`;
 }
 function bindOnboarding(){}
 function obPick(btn, key){
