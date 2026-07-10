@@ -4,6 +4,9 @@ on:
   schedule:
     # 每天北京时间 9 点 = UTC 1 点
     - cron: '0 1 * * *'
+  push:
+    branches: [main]
+    paths: ['index.html']
   # 允许手动触发（测试用）
   workflow_dispatch:
 
@@ -12,7 +15,9 @@ permissions:
   issues: write
 
 jobs:
+  # Job 1: 定时检查 QR_IMG 是否过期，到期则创建/更新 Issue
   check-qr-age:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
       - name: 检出仓库
@@ -96,4 +101,66 @@ jobs:
                 labels: ['reminder']
               });
               console.log(`已创建新 issue #${issue.number}`);
+            }
+
+  # Job 2: push 到 index.html 时精确检测 QR_IMG 是否真改了，
+  # 改了才关闭提醒 issue；没改则不动
+  close-on-update:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2   # 只需 HEAD 和 HEAD~1 的 diff
+
+      - name: 检测 QR_IMG 是否真改了，关闭对应 issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // 拿 HEAD 这次 commit 对 index.html 的 diff
+            let qrChanged = false;
+            try {
+              const diff = execSync('git show HEAD -- index.html', { encoding: 'utf-8' });
+              // 精确匹配：+/- 开头的、且声明 QR_IMG 的行（防止注释误判）
+              qrChanged = /^[+-]\s*const QR_IMG\s*=/m.test(diff);
+            } catch (e) {
+              console.log('读取 diff 失败:', e.message);
+              return;
+            }
+
+            if (!qrChanged) {
+              console.log('本次 push 未修改 QR_IMG，无需关闭任何 issue');
+              return;
+            }
+
+            console.log('本次 push 包含 QR_IMG 修改，关闭所有 🔔 QR_IMG 已* 的 open issue');
+
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+
+            const toClose = openIssues.filter(i =>
+              i.title.startsWith('🔔 QR_IMG 已')
+            );
+
+            if (toClose.length === 0) {
+              console.log('没有需要关闭的 open issue');
+              return;
+            }
+
+            for (const issue of toClose) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+              console.log(`已关闭 issue #${issue.number}: ${issue.title}`);
             }
