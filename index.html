@@ -576,10 +576,31 @@ function vocabExport(words){
   return words.map(w=>[w.zh,w.en,w.hint||""].join("\t")).join("\n");
 }
 function copyText(text, msg){
-  navigator.clipboard.writeText(text).then(()=>toast(msg)).catch(()=>{
-    const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta);
-    ta.select(); document.execCommand("copy"); ta.remove(); toast(msg);
-  });
+  // 兜底：navigator.clipboard 不可用（file://、非安全上下文、部分内置浏览器）或写入被拒时走这里
+  const legacy = ()=>{
+    let ok=false;
+    try{
+      const ta=document.createElement("textarea");
+      ta.value=text;
+      ta.setAttribute("readonly","");            // iOS 上避免弹出键盘
+      ta.style.cssText="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try{ ta.setSelectionRange(0, text.length); }catch(_){}  // iOS 需要显式设选区
+      ok=document.execCommand("copy");
+      ta.remove();
+    }catch(_){ ok=false; }
+    if(ok){ toast(msg); }
+    else{ toast("自动复制失败，请在弹出框里长按/⌘C 手动复制"); try{ window.prompt("复制下面的文字：", text); }catch(_){} }
+  };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      // 第二个参数即拒绝回调；.writeText 极少数实现下也可能同步抛错，故外层再包 try
+      navigator.clipboard.writeText(text).then(()=>toast(msg), legacy);
+    }else{
+      legacy();
+    }
+  }catch(_){ legacy(); }
 }
 
 /* ── 完成状态 ── */
@@ -783,6 +804,9 @@ function renderModule(m){
         <details><summary>参考译文</summary><div class="refbox" ondblclick="hl(event)">${esc(x.ref)}</div></details>`;
     };
     body = `<p class="note">每天必练：一句${["","词句级","长句","句群"][m.lvl]||""}的双向翻译。动笔比看重要。双击句子可高亮难点。</p>
+      <div style="background:var(--blue-soft);border-radius:8px;padding:8px 10px;margin:6px 0 8px">
+        <p class="note" style="margin:0"><b>怎么用：</b>① 先自己写下面两个方向的译文 → ② 点最下方「复制批改指令」→ ③ 粘贴给豆包 / DeepSeek / Kimi 等免费 AI。AI 会按 CATTI 标准逐句批改，并针对你的错误再出 1 个同类句子，帮你趁热巩固。</p>
+      </div>
       ${one(m.c2e,"c2e","汉译英")}
       ${one(m.e2c,"e2c","英译汉")}
       <div class="btnrow" style="margin-top:8px">
@@ -917,7 +941,7 @@ function cycleMicroLevel(){
 }
 function copyMicroPrompt(mid){
   const m = findModule(mid);
-  if(!m) return;
+  if(!m){ toast("没找到这张卡片的内容，刷新一下再试"); return; }
   const c2eMine = ($("wk_"+mid+"_c2e")||{}).value || "";
   const e2cMine = ($("wk_"+mid+"_e2c")||{}).value || "";
   const level = S.level==="er"?"CATTI二级笔译":"CATTI三级笔译";
@@ -930,7 +954,9 @@ function copyMicroPrompt(mid){
 
 【英译汉】原文：${m.e2c.src}
 参考：${m.e2c.ref}
-我的译文：${e2cMine||"（未填写）"}`, "微翻译批改指令已复制");
+我的译文：${e2cMine||"（未填写）"}
+
+批改完，请针对我最需要改进的那个问题，另外出 1 个难度相当的同类练习句（汉译英或英译汉均可，只给原文、先不要给参考译文），让我立刻再练一遍巩固。`, "微翻译批改指令已复制");
 }
 function copyGramPrompt(){
   const cur = currentDayN(), wk = [];
